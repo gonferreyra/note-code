@@ -28,8 +28,8 @@ export default function CodeComponent() {
         <MonacoEditor theme={theme} />
       )}
 
-      <div className="flex items-end justify-between">
-        <div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <select
             id="language"
             name="language"
@@ -40,9 +40,8 @@ export default function CodeComponent() {
           <select
             id="theme"
             name="theme"
-            // defaultValue={theme}
             onChange={({ target: { value } }) => handleThemeChange(value)}
-            className="ml-4 cursor-pointer rounded-full border-r-8 border-[#ced6e1] bg-[#ced6e1] px-4 py-2 text-[10px] font-semibold"
+            className="ml-2 cursor-pointer rounded-full border-r-8 border-[#ced6e1] bg-[#ced6e1] px-4 py-2 text-[10px] font-semibold md:ml-4"
           >
             <option className="font-semibold" value="light">
               Light
