@@ -1,49 +1,32 @@
-import Editor from '@monaco-editor/react';
+import { useParams } from 'react-router-dom';
+import MonacoEditor from './MonacoEditor';
+import { useState } from 'react';
+import clsx from 'clsx';
 
 export default function CodeComponent() {
-  const editorOptions = {
-    minimap: { enabled: false },
-    scrollBeyondLastLine: false,
-    glyphMargin: false, // Desactiva el margen para glifos (como breakpoints)
-    // folding: false, // Desactiva la posibilidad de plegar código
-    lineDecorationsWidth: 0, // Reduce el espacio reservado para decoraciones de línea
-    lineNumbersMinChars: 2, // Reduce el espacio reservado para los números de línea
-    wordWrap: 'on', // Habilita el ajuste de palabras para evitar la barra de desplazamiento horizontal
-    scrollbar: {
-      horizontal: 'hidden', // Oculta la barra de desplazamiento horizontal
-    },
+  const [theme, setTheme] = useState('light');
+  const { id } = useParams();
+  // console.log(id);
+
+  const handleThemeChange = (value: string) => {
+    setTheme(value);
   };
 
-  const defaultValue = `<html>
-  <head>
-    <title>HTML Sample</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <style type="text/css">
-      h1 {
-        color: #CCA3A3;
-      }
-    </style>
-    <script type="text/javascript">
-      alert("I am a sample... visit devChallengs.io for more projects");
-    </script>
-  </head>
-  <body>
-    <h1>Heading No.1</h1>
-    <input disabled type="button" value="Click me" />
-  </body>
-</html>`;
-
   return (
-    <main className="mx-auto mt-6 max-w-2xl rounded-lg bg-white p-4 lg:max-w-3xl xl:max-w-4xl">
-      <Editor
-        height={'500px'}
-        width={'100%'}
-        defaultLanguage="html"
-        theme={'vs-light'}
-        loading={'loading...'}
-        options={editorOptions}
-        defaultValue={defaultValue}
-      />
+    <main
+      className={clsx(
+        'xl:max-w-4xlcl mx-auto mt-6 max-w-2xl rounded-lg p-4 lg:max-w-3xl',
+        {
+          'bg-[#1e1e1e]': theme === 'dark',
+          'bg-white': theme === 'light',
+        },
+      )}
+    >
+      {id ? (
+        <MonacoEditor id={id} theme={theme} />
+      ) : (
+        <MonacoEditor theme={theme} />
+      )}
 
       <div className="flex items-end justify-between">
         <div>
@@ -57,14 +40,32 @@ export default function CodeComponent() {
           <select
             id="theme"
             name="theme"
+            // defaultValue={theme}
+            onChange={({ target: { value } }) => handleThemeChange(value)}
             className="ml-4 cursor-pointer rounded-full border-r-8 border-[#ced6e1] bg-[#ced6e1] px-4 py-2 text-[10px] font-semibold"
           >
-            <option className="font-semibold">Light</option>
-            <option>Dark</option>
+            <option className="font-semibold" value="light">
+              Light
+            </option>
+            <option className="font-semibold" value="dark">
+              VS Dark
+            </option>
           </select>
         </div>
-        <div>
-          <button className="flex items-center justify-center gap-2 rounded-full bg-[#406aff] px-4 py-3 text-base font-semibold leading-none text-white">
+        <div className="flex gap-6">
+          {id && (
+            <a
+              href="#"
+              className="flex items-center gap-2 text-sm font-semibold text-[#677489]"
+            >
+              <img src="/link.svg" alt="link-image" />
+              {`.../${id}`}
+            </a>
+          )}
+          <button
+            className="flex items-center justify-center gap-2 rounded-full bg-[#406aff] px-4 py-3 text-base font-semibold leading-none text-white disabled:bg-[#677489]"
+            disabled={id ? true : false}
+          >
             <img src="/Share.svg" alt="share-icon" className="h-4 w-4" />
             <span className="align-middle">Share</span>
           </button>
