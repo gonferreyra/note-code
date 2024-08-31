@@ -1,11 +1,8 @@
 {
-  "posts": [{ "id": 1, "title": "json-server", "author": "typicode" }],
-  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-  "profile": { "name": "typicode" },
   "users": [
     {
       "id": 1,
-      "code": "something"
+      "code": "<html>\n  <head>\n    <title>HTML Sample</title>\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <style type=\"text/css\">\n      h1 {\n        color: #CCA3A3;\n      }\n    </style>\n    <script type=\"text/javascript\">\n      alert(\"I am a sample... visit devChallengs.io for more projects\");\n    </script>\n  </head>\n  <body>\n    <h1>Heading No.1</h1>\n    <input disabled type=\"button\" value=\"Click me\" />\n  </body>\n</html>"
     }
   ]
 }
