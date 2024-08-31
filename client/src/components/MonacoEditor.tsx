@@ -1,4 +1,5 @@
 import Editor from '@monaco-editor/react';
+import { useQuery } from '@tanstack/react-query';
 
 type MonacoEditorProps = {
   id?: string;
@@ -6,9 +7,46 @@ type MonacoEditorProps = {
 };
 
 export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
-  // console.log(id);
+  const fetchCode = async () => {
+    const response = await fetch('http://localhost:3000/users');
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.description);
+    }
+
+    const data = await response.json();
+
+    return data;
+  };
+
+  const fetchSharedCode = async (id: string) => {
+    const response = await fetch(`http://localhost:3000/users?id=${id}`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.description);
+    }
+
+    const data = await response.json();
+    const extractedCode = data.map((code) => code.code);
+
+    return extractedCode;
+  };
+
+  const {
+    isLoading,
+    data: code,
+    error,
+  } = useQuery({
+    queryKey: ['code', id],
+    queryFn: () => fetchSharedCode(id!),
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
   const editorOptions = {
-    minimap: { enabled: false },
+    // minimap: { enabled: false },
     scrollBeyondLastLine: false,
     glyphMargin: false, // Desactiva el margen para glifos (como breakpoints)
     // folding: false, // Desactiva la posibilidad de plegar código
@@ -20,9 +58,11 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
     },
   };
 
-  const defaultValue = `<html>
+  let defaultValue;
+  if (!id) {
+    defaultValue = `<html>
   <head>
-    <title>HTML Sample</title>
+    <title>Enter a title</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <style type="text/css">
       h1 {
@@ -30,14 +70,16 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
       }
     </style>
     <script type="text/javascript">
-      alert("I am a sample... visit devChallengs.io for more projects");
+      alert("I am a sample");
     </script>
   </head>
   <body>
-    <h1>Heading No.1</h1>
-    <input disabled type="button" value="Click me" />
+    <!-- Write your HTML code here -->
   </body>
 </html>`;
+  } else {
+    defaultValue = `${code}`;
+  }
 
   return (
     <Editor
@@ -47,7 +89,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
       theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
       loading={'loading...'}
       options={editorOptions}
-      defaultValue={id ? undefined : defaultValue}
+      defaultValue={defaultValue}
     />
   );
 }
