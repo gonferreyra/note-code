@@ -1,5 +1,6 @@
 import Editor from '@monaco-editor/react';
 import { useQuery } from '@tanstack/react-query';
+import type { Code } from '../lib/types';
 
 type MonacoEditorProps = {
   id?: string;
@@ -7,18 +8,8 @@ type MonacoEditorProps = {
 };
 
 export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
-  const fetchCode = async () => {
-    const response = await fetch('http://localhost:3000/users');
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.description);
-    }
-
-    const data = await response.json();
-
-    return data;
-  };
+  // TODO:
+  // - Validar que el id exista!! Esto lo vamos a hacer cuando creemos la API
 
   const fetchSharedCode = async (id: string) => {
     const response = await fetch(`http://localhost:3000/users?id=${id}`);
@@ -29,7 +20,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
     }
 
     const data = await response.json();
-    const extractedCode = data.map((code) => code.code);
+    const extractedCode = data.map((code: Code) => code.code);
 
     return extractedCode;
   };
@@ -41,6 +32,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
   } = useQuery({
     queryKey: ['code', id],
     queryFn: () => fetchSharedCode(id!),
+    enabled: !!id, // Se ejecuta el query si existe id
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -78,7 +70,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
   </body>
 </html>`;
   } else {
-    defaultValue = `${code}`;
+    defaultValue = code ? code[0] : '';
   }
 
   return (
@@ -89,7 +81,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
       theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
       loading={'loading...'}
       options={editorOptions}
-      defaultValue={defaultValue}
+      value={defaultValue}
     />
   );
 }
