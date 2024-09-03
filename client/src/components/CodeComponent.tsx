@@ -1,16 +1,48 @@
 import { useParams } from 'react-router-dom';
 import MonacoEditor from './MonacoEditor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CodeComponent() {
+  // TODO: enviar la url a .env
   const [theme, setTheme] = useState('light');
+  const [editorCode, setEditorCode] = useState('');
+  const [disabledBtn, setDisabledBtn] = useState(true);
   const { id } = useParams();
   // console.log(id);
+
+  const handleEditorCodeChange = (code: string) => {
+    setEditorCode(code);
+  };
 
   const handleThemeChange = (value: string) => {
     setTheme(value);
   };
+
+  const handleShare = async () => {
+    const newId = uuidv4();
+    const response = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: newId,
+        code: editorCode,
+      }),
+    });
+
+    if (response.ok) {
+      window.location.href = `http://localhost:5173/${newId}`;
+    }
+  };
+
+  useEffect(() => {
+    if (editorCode !== '') {
+      setDisabledBtn(false);
+    }
+  }, [editorCode]);
 
   return (
     <main
@@ -23,9 +55,16 @@ export default function CodeComponent() {
       )}
     >
       {id ? (
-        <MonacoEditor id={id} theme={theme} />
+        <MonacoEditor
+          id={id}
+          theme={theme}
+          handleEditorCodeChange={handleEditorCodeChange}
+        />
       ) : (
-        <MonacoEditor theme={theme} />
+        <MonacoEditor
+          theme={theme}
+          handleEditorCodeChange={handleEditorCodeChange}
+        />
       )}
 
       <div className="flex items-center justify-between">
@@ -63,7 +102,8 @@ export default function CodeComponent() {
           )}
           <button
             className="flex items-center justify-center gap-2 rounded-full bg-[#406aff] px-4 py-3 text-base font-semibold leading-none text-white disabled:bg-[#677489]"
-            disabled={id ? true : false}
+            disabled={disabledBtn}
+            onClick={handleShare}
           >
             <img src="/Share.svg" alt="share-icon" className="h-4 w-4" />
             <span className="align-middle">Share</span>

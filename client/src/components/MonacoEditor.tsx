@@ -1,17 +1,24 @@
 import Editor from '@monaco-editor/react';
 import { useQuery } from '@tanstack/react-query';
 import type { Code } from '../lib/types';
+import { sleep } from '../lib/utils';
 
 type MonacoEditorProps = {
   id?: string;
   theme: string;
+  handleEditorCodeChange: (code: string) => void;
 };
 
-export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
+export default function MonacoEditor({
+  id,
+  theme,
+  handleEditorCodeChange,
+}: MonacoEditorProps) {
   // TODO:
   // - Validar que el id exista!! Esto lo vamos a hacer cuando creemos la API
 
   const fetchSharedCode = async (id: string) => {
+    await sleep(1000);
     const response = await fetch(`http://localhost:3000/users?id=${id}`);
 
     if (!response.ok) {
@@ -82,6 +89,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
       loading={'loading...'}
       options={editorOptions}
       value={defaultValue}
+      onChange={(value) => handleEditorCodeChange(value || '')}
     />
   );
 }
