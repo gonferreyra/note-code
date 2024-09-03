@@ -16,10 +16,11 @@ export default function MonacoEditor({
 }: MonacoEditorProps) {
   // TODO:
   // - Validar que el id exista!! Esto lo vamos a hacer cuando creemos la API
+  const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
   const fetchSharedCode = async (id: string) => {
-    await sleep(1000);
-    const response = await fetch(`http://localhost:3000/users?id=${id}`);
+    await sleep(2000);
+    const response = await fetch(`${apiUrl}/users?id=${id}`);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -42,7 +43,12 @@ export default function MonacoEditor({
     enabled: !!id, // Se ejecuta el query si existe id
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex h-[500px] items-center justify-center">
+        Loading...
+      </div>
+    );
 
   const editorOptions = {
     // minimap: { enabled: false },
@@ -86,7 +92,7 @@ export default function MonacoEditor({
       width={'100%'}
       defaultLanguage="html"
       theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
-      loading={'loading...'}
+      // loading={'Loading...'}
       options={editorOptions}
       value={defaultValue}
       onChange={(value) => handleEditorCodeChange(value || '')}

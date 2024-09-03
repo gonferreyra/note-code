@@ -3,6 +3,7 @@ import MonacoEditor from './MonacoEditor';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { v4 as uuidv4 } from 'uuid';
+import toast from 'react-hot-toast';
 
 export default function CodeComponent() {
   // TODO: enviar la url a .env
@@ -11,6 +12,8 @@ export default function CodeComponent() {
   const [disabledBtn, setDisabledBtn] = useState(true);
   const { id } = useParams();
   // console.log(id);
+  const apiUrl = import.meta.env.VITE_BASE_API_URL;
+  const shareUrl = import.meta.env.VITE_BASE_SHARE_URL;
 
   const handleEditorCodeChange = (code: string) => {
     setEditorCode(code);
@@ -22,7 +25,7 @@ export default function CodeComponent() {
 
   const handleShare = async () => {
     const newId = uuidv4();
-    const response = await fetch('http://localhost:3000/users', {
+    const response = await fetch(`${apiUrl}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +37,7 @@ export default function CodeComponent() {
     });
 
     if (response.ok) {
-      window.location.href = `http://localhost:5173/${newId}`;
+      window.location.href = `${shareUrl}/${newId}`;
     }
   };
 
@@ -92,13 +95,16 @@ export default function CodeComponent() {
         </div>
         <div className="flex gap-6">
           {id && (
-            <a
-              href="#"
+            <button
               className="flex items-center gap-2 text-sm font-semibold text-[#677489]"
+              onClick={() => {
+                navigator.clipboard.writeText(`http://localhost:5173/${id}`);
+                toast.success('Link copied to clipboard!');
+              }}
             >
               <img src="/link.svg" alt="link-image" />
-              {`.../${id}`}
-            </a>
+              {`.../${id.slice(-5)}`}
+            </button>
           )}
           <button
             className="flex items-center justify-center gap-2 rounded-full bg-[#406aff] px-4 py-3 text-base font-semibold leading-none text-white disabled:bg-[#677489]"
