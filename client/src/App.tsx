@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 // import CodeComponent from './components/CodeComponent';
 import Header from './components/Header';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         {/* <CodeComponent /> */}
         <Outlet />
       </div>
+      <Toaster position="top-right" />
     </>
   );
 }
