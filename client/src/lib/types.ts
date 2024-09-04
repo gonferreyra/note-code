@@ -1,5 +1,5 @@
 export type Code = {
   id: string;
-  lenguage: 'html' | 'javascript';
+  language: 'html' | 'javascript';
   code: string;
 };

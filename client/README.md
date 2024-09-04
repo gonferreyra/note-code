@@ -33,7 +33,7 @@ User Stories:
 - By default, users should see an HTML given snippet.
 - When users select the "Share" button, a new ID should ne generated, and users can access the saved code with the generated ID.
 - After code is sabed and shared, "shared" button should be disabled until users make an edit.
-- Users can choose the lenguage and theme they want to save and share. -- Working
+- Users can choose the language and theme they want to save and share. -- Working
 - The application should be responsive on all devices.
 
 ### Screenshots
