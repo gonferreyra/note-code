@@ -7,15 +7,20 @@ type MonacoEditorProps = {
   id?: string;
   theme: string;
   handleEditorCodeChange: (code: string) => void;
+  lenguage: 'html' | 'javascript';
+  handleEditorLenguageChange: (value: 'html' | 'javascript') => void;
 };
 
 export default function MonacoEditor({
   id,
   theme,
   handleEditorCodeChange,
+  lenguage,
+  handleEditorLenguageChange,
 }: MonacoEditorProps) {
   // TODO:
   // - Validar que el id exista!! Esto lo vamos a hacer cuando creemos la API
+  // - Validar que cuando haga fetch, vea el lenguage del codigo y cambie el de la app
   const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
   const fetchSharedCode = async (id: string) => {
@@ -28,9 +33,13 @@ export default function MonacoEditor({
     }
 
     const data = await response.json();
-    const extractedCode = data.map((code: Code) => code.code);
+    // const extractedCode = data.map((code: Code) => code.code);
 
-    return extractedCode;
+    return {
+      code: data.map((code: Code) => code.code),
+      lenguage: data.map((code: Code) => code.lenguage),
+    };
+    // return data;
   };
 
   const {
@@ -49,6 +58,9 @@ export default function MonacoEditor({
         Loading...
       </div>
     );
+
+  // console.log(code?.code[0]);
+  // console.log(code?.lenguage[0]);
 
   const editorOptions = {
     // minimap: { enabled: false },
@@ -83,16 +95,16 @@ export default function MonacoEditor({
   </body>
 </html>`;
   } else {
-    defaultValue = code ? code[0] : '';
+    defaultValue = code ? code?.code[0] : '';
   }
 
   return (
     <Editor
       height={'500px'}
       width={'100%'}
-      defaultLanguage="html"
+      language={code ? code?.lenguage[0] : lenguage}
       theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
-      // loading={'Loading...'}
+      // loading={loading}
       options={editorOptions}
       value={defaultValue}
       onChange={(value) => handleEditorCodeChange(value || '')}

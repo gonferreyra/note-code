@@ -9,6 +9,9 @@ export default function CodeComponent() {
   // TODO: enviar la url a .env
   const [theme, setTheme] = useState('light');
   const [editorCode, setEditorCode] = useState('');
+  const [editorLenguage, setEditorLenguage] = useState<'html' | 'javascript'>(
+    'html',
+  );
   const [disabledBtn, setDisabledBtn] = useState(true);
   const { id } = useParams();
   // console.log(id);
@@ -21,6 +24,10 @@ export default function CodeComponent() {
 
   const handleThemeChange = (value: string) => {
     setTheme(value);
+  };
+
+  const handleEditorLenguageChange = (value: 'html' | 'javascript') => {
+    setEditorLenguage(value);
   };
 
   const handleShare = async () => {
@@ -50,7 +57,7 @@ export default function CodeComponent() {
   return (
     <main
       className={clsx(
-        'xl:max-w-4xlcl mx-auto mt-6 max-w-2xl rounded-lg p-4 lg:max-w-3xl',
+        'xl:max-w-4xlcl mx-auto mt-6 max-w-2xl rounded-lg p-4 lg:max-w-3xl xl:max-w-5xl',
         {
           'bg-[#1e1e1e]': theme === 'dark',
           'bg-white': theme === 'light',
@@ -62,11 +69,15 @@ export default function CodeComponent() {
           id={id}
           theme={theme}
           handleEditorCodeChange={handleEditorCodeChange}
+          lenguage={editorLenguage}
+          handleEditorLenguageChange={handleEditorLenguageChange}
         />
       ) : (
         <MonacoEditor
           theme={theme}
           handleEditorCodeChange={handleEditorCodeChange}
+          lenguage={editorLenguage}
+          handleEditorLenguageChange={handleEditorLenguageChange}
         />
       )}
 
@@ -75,9 +86,16 @@ export default function CodeComponent() {
           <select
             id="language"
             name="language"
+            value={editorLenguage}
             className="cursor-pointer rounded-full border-r-8 border-[#ced6e1] bg-[#ced6e1] px-4 py-2 text-[10px] font-semibold"
+            onChange={(e) =>
+              handleEditorLenguageChange(
+                e.target.value as 'html' | 'javascript',
+              )
+            }
           >
-            <option>HTML</option>
+            <option value="html">HTML</option>
+            <option value="javascript">JavaScript</option>
           </select>
           <select
             id="theme"
