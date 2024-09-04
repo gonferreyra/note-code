@@ -46,6 +46,7 @@ export default function CodeComponent() {
       body: JSON.stringify({
         id: newId,
         code: editorCode,
+        language: editorlanguage,
       }),
     });
 
