@@ -9,10 +9,11 @@ export default function CodeComponent() {
   // TODO: enviar la url a .env
   const [theme, setTheme] = useState('light');
   const [editorCode, setEditorCode] = useState('');
-  const [editorLenguage, setEditorLenguage] = useState<'html' | 'javascript'>(
+  const [editorlanguage, setEditorlanguage] = useState<'html' | 'javascript'>(
     'html',
   );
   const [disabledBtn, setDisabledBtn] = useState(true);
+  const [isManualChange, setIsManualChange] = useState(false);
   const { id } = useParams();
   // console.log(id);
   const apiUrl = import.meta.env.VITE_BASE_API_URL;
@@ -26,8 +27,13 @@ export default function CodeComponent() {
     setTheme(value);
   };
 
-  const handleEditorLenguageChange = (value: 'html' | 'javascript') => {
-    setEditorLenguage(value);
+  const handleEditorlanguageChange = (value: 'html' | 'javascript') => {
+    setEditorlanguage(value);
+  };
+
+  const handleLanguageChange = (newLanguage: 'html' | 'javascript') => {
+    setIsManualChange(true); // Marca que ha habido un cambio manual
+    handleEditorlanguageChange(newLanguage);
   };
 
   const handleShare = async () => {
@@ -69,15 +75,17 @@ export default function CodeComponent() {
           id={id}
           theme={theme}
           handleEditorCodeChange={handleEditorCodeChange}
-          lenguage={editorLenguage}
-          handleEditorLenguageChange={handleEditorLenguageChange}
+          language={editorlanguage}
+          handleEditorlanguageChange={handleEditorlanguageChange}
+          isManualChange={isManualChange}
         />
       ) : (
         <MonacoEditor
           theme={theme}
           handleEditorCodeChange={handleEditorCodeChange}
-          lenguage={editorLenguage}
-          handleEditorLenguageChange={handleEditorLenguageChange}
+          language={editorlanguage}
+          handleEditorlanguageChange={handleEditorlanguageChange}
+          isManualChange={isManualChange}
         />
       )}
 
@@ -86,12 +94,10 @@ export default function CodeComponent() {
           <select
             id="language"
             name="language"
-            value={editorLenguage}
+            value={editorlanguage}
             className="cursor-pointer rounded-full border-r-8 border-[#ced6e1] bg-[#ced6e1] px-4 py-2 text-[10px] font-semibold"
             onChange={(e) =>
-              handleEditorLenguageChange(
-                e.target.value as 'html' | 'javascript',
-              )
+              handleLanguageChange(e.target.value as 'html' | 'javascript')
             }
           >
             <option value="html">HTML</option>
@@ -116,7 +122,7 @@ export default function CodeComponent() {
             <button
               className="flex items-center gap-2 text-sm font-semibold text-[#677489]"
               onClick={() => {
-                navigator.clipboard.writeText(`http://localhost:5173/${id}`);
+                navigator.clipboard.writeText(`${shareUrl}/${id}`);
                 toast.success('Link copied to clipboard!');
               }}
             >
