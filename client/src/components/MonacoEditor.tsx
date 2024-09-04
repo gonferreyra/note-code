@@ -4,6 +4,7 @@ import type { Code } from '../lib/types';
 import { sleep } from '../lib/utils';
 import { defaultHtmlValue } from '../lib/constants';
 import { useEffect } from 'react';
+import { Triangle } from 'react-loader-spinner';
 
 type MonacoEditorProps = {
   id?: string;
@@ -76,7 +77,7 @@ export default function MonacoEditor({
   if (isLoading) {
     return (
       <div className="flex h-[500px] items-center justify-center">
-        Loading...
+        <Triangle color="rgba(116, 62, 228, 1)" />
       </div>
     );
   }
@@ -84,6 +85,7 @@ export default function MonacoEditor({
   return (
     <Editor
       height={'500px'}
+      loading={true}
       width={'100%'}
       language={language}
       theme={theme === 'light' ? 'vs-light' : 'vs-dark'}
