@@ -3,7 +3,7 @@ import Editor from '@monaco-editor/react';
 import { defaultHtmlValue } from '../lib/constants';
 import { useEffect } from 'react';
 import { Triangle } from 'react-loader-spinner';
-import { useCodeState } from '../store/codeStore';
+import useStore from '../store/codeStore';
 import { useCodeQuery } from '../lib/hooks';
 
 type MonacoEditorProps = {
@@ -12,12 +12,10 @@ type MonacoEditorProps = {
 };
 
 export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
-  const editorLanguage = useCodeState((state) => state.editorLanguage);
-  const setEditorCode = useCodeState((state) => state.setEditorCode);
-  const setEditorLanguage = useCodeState((state) => state.setEditorLanguage);
-  const manualEditorLanguage = useCodeState(
-    (state) => state.manualEditorLanguage,
-  );
+  const editorLanguage = useStore.use.editorLanguage();
+  const setEditorCode = useStore.use.setEditorCode();
+  const setEditorLanguage = useStore.use.setEditorLanguage();
+  const manualEditorLanguage = useStore.use.manualEditorLanguage();
 
   const { isLoading, code } = useCodeQuery(id || '');
 

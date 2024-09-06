@@ -3,18 +3,17 @@ import MonacoEditor from './MonacoEditor';
 import { useState } from 'react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
-import { useCodeState } from '../store/codeStore';
+import useStore from '../store/codeStore';
 import Option from './Option';
 import Button from './Button';
+// import { useStore } from '';
 
 export default function CodeComponent() {
   const [theme, setTheme] = useState('light');
   const { id } = useParams();
-  const editorLanguage = useCodeState((state) => state.editorLanguage);
+  const editorLanguage = useStore.use.editorLanguage();
+  const handleLanguageChange = useStore.use.handleLanguageChange();
 
-  const handleLanguageChange = useCodeState(
-    (state) => state.handleLanguageChange,
-  );
   const shareUrl = import.meta.env.VITE_BASE_SHARE_URL;
 
   const handleThemeChange = (value: string) => {

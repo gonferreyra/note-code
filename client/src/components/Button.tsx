@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useCodeState } from '../store/codeStore';
+import useStore from '../store/codeStore';
 
 export default function Button() {
-  const handleShare = useCodeState((state) => state.handleShare);
-  const editorCode = useCodeState((state) => state.editorCode);
+  const handleShare = useStore.use.handleShare();
+  const editorCode = useStore.use.editorCode();
   const [disabledBtn, setDisabledBtn] = useState(true);
 
   useEffect(() => {
