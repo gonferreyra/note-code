@@ -12,8 +12,6 @@ type MonacoEditorProps = {
 };
 
 export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
-  // TODO:
-  // - Validar que el id exista!! Esto lo vamos a hacer cuando creemos la API
   const editorLanguage = useCodeState((state) => state.editorLanguage);
   const setEditorCode = useCodeState((state) => state.setEditorCode);
   const setEditorLanguage = useCodeState((state) => state.setEditorLanguage);
