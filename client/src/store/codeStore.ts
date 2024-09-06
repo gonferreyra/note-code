@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { v4 as uuidv4 } from 'uuid';
+import createSelectors from './selectors';
 
 type CodeState = {
   editorCode: string;
@@ -15,7 +16,7 @@ type CodeState = {
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 const shareUrl = import.meta.env.VITE_BASE_SHARE_URL;
 
-export const useCodeState = create<CodeState>()((set, get) => ({
+const useCodeState = create<CodeState>()((set, get) => ({
   editorCode: '',
   editorLanguage: 'html',
   manualEditorLanguage: false,
@@ -54,3 +55,5 @@ export const useCodeState = create<CodeState>()((set, get) => ({
     }
   },
 }));
+
+export default createSelectors(useCodeState);
