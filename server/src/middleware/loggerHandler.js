@@ -19,7 +19,7 @@ export function loggerMiddleware(req, res, next) {
     }
 
     logger.info(
-      `Incoming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}] - STATUS: [${res.statusCode}]`,
+      `Incoming - METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}]`,
     );
 
     originalSend.call(res, data);
