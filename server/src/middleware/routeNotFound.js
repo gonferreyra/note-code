@@ -1,4 +1,4 @@
-import logger from '../config/logger';
+import logger from '../config/logger.js';
 
 export function routeNotFound(req, res) {
   const error = new Error('Route Not Found');
