@@ -6,6 +6,7 @@ import { SERVER } from './config/config.js';
 import { corsHandler } from './middleware/corsHandler.js';
 import routerUsers from './routes/user.routes.js';
 import { loggerMiddleware } from './middleware/loggerHandler.js';
+import { routeNotFound } from './middleware/routeNotFound.js';
 
 const app = express();
 let httpServer;
@@ -21,6 +22,7 @@ const Main = () => {
   // Middelwares
   app.use(corsHandler);
   app.use(loggerMiddleware);
+  app.use(routeNotFound);
 
   // Routes
   app.use('/api/', routerUsers);
