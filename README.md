@@ -40,15 +40,15 @@ User Stories:
 
 ### Mobile 375px
 
-![mobile](preview/iPhone%206-7-8-1725390605514.jpeg)
+![mobile](client/preview/iPhone%206-7-8-1725390605514.jpeg)
 
 ### Mobile 430px
 
-![mobile](preview/iPhone%2014%20Pro%20Max-1725390628392.jpeg)
+![mobile](client/preview/iPhone%2014%20Pro%20Max-1725390628392.jpeg)
 
 ### MacBook Pro 1440px
 
-![desktop](preview/MacBook%20Pro-1725390822804.jpeg)
+![desktop](client/preview/MacBook%20Pro-1725390822804.jpeg)
 
 ### Link
 
