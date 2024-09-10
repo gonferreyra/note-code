@@ -1,5 +1,6 @@
 import express from 'express';
 import http from 'http';
+import mongoose from 'mongoose';
 import logger from './config/logger.js';
 
 import { SERVER } from './config/config.js';
@@ -7,6 +8,7 @@ import { corsHandler } from './middleware/corsHandler.js';
 import routerUsers from './routes/user.routes.js';
 import { loggerMiddleware } from './middleware/loggerHandler.js';
 import { routeNotFound } from './middleware/routeNotFound.js';
+import Code from './models/Code.js';
 
 const app = express();
 let httpServer;
@@ -18,14 +20,23 @@ const Main = () => {
   app.use(express.json());
 
   // Database Conection
+  const DB = process.env.DATABASE.replace(
+    '<PASSWORD>',
+    process.env.DATABASE_PASSWORD,
+  );
+  mongoose.connect(DB).then((connection) => {
+    logger.info('Database Connected');
+    // logger.info(connection.connections);
+  });
 
   // Middelwares
   app.use(corsHandler);
   app.use(loggerMiddleware);
-  app.use(routeNotFound);
 
   // Routes
   app.use('/api/', routerUsers);
+
+  app.use(routeNotFound);
 
   httpServer = http.createServer(app);
 
