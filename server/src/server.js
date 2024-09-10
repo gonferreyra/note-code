@@ -5,10 +5,9 @@ import logger from './config/logger.js';
 
 import { SERVER } from './config/config.js';
 import { corsHandler } from './middleware/corsHandler.js';
-import routerUsers from './routes/user.routes.js';
+import routerCode from './routes/code.routes.js';
 import { loggerMiddleware } from './middleware/loggerHandler.js';
 import { routeNotFound } from './middleware/routeNotFound.js';
-import Code from './models/Code.js';
 
 const app = express();
 let httpServer;
@@ -34,7 +33,7 @@ const Main = () => {
   app.use(loggerMiddleware);
 
   // Routes
-  app.use('/api/', routerUsers);
+  app.use('/api/', routerCode);
 
   app.use(routeNotFound);
 
