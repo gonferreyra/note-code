@@ -14,8 +14,8 @@ This is a solution to the [Code Sharing App](https://devchallenges.io/challenge/
     - [Screenshots](#screenshots)
     - [Mobile 375px](#mobile-375px)
     - [Mobile 430px](#mobile-430px)
-    - [MacBook Pro 1440px](#macbook-pro-1440px)
-    - [Link](#link)
+    - [Nest Hub Max 1280](#nest-hub-max-1280)
+    - [MacBook Pro 1440](#macbook-pro-1440)
   - [My process](#my-process)
     - [Built with](#built-with)
     - [State](#state)
@@ -46,13 +46,13 @@ User Stories:
 
 ![mobile](client/preview/iPhone%2014%20Pro%20Max-1725390628392.jpeg)
 
-### MacBook Pro 1440px
+### Nest Hub Max 1280
+
+![desktop](client/preview/Nest%20Hub%20Max-1725996655518.jpeg)
+
+### MacBook Pro 1440
 
 ![desktop](client/preview/MacBook%20Pro-1725390822804.jpeg)
-
-### Link
-
-- Live Site URL: [Here](https://site)
 
 ## My process
 
