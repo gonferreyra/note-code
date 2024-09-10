@@ -19,9 +19,11 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
 
   const { isLoading, code } = useCodeQuery(id || '');
 
+  // console.log(code);
+
   useEffect(() => {
-    if (id && code?.language[0] && !manualEditorLanguage) {
-      setEditorLanguage(code.language[0] as 'html' | 'javascript');
+    if (id && code?.language && !manualEditorLanguage) {
+      setEditorLanguage(code.language as 'html' | 'javascript');
     }
   }, [id, code, setEditorLanguage, manualEditorLanguage]);
 
@@ -36,7 +38,7 @@ export default function MonacoEditor({ id, theme }: MonacoEditorProps) {
     },
   };
 
-  const defaultValue = id ? (code ? code?.code[0] : '') : defaultHtmlValue;
+  const defaultValue = id ? (code ? code.code : '') : defaultHtmlValue;
 
   if (isLoading) {
     return (

@@ -39,7 +39,7 @@ const useCodeState = create<CodeState>()((set, get) => ({
   // fetcher functions
   handleShare: async () => {
     const newId = uuidv4();
-    const response = await fetch(`${apiUrl}/users`, {
+    const response = await fetch(`${apiUrl}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
